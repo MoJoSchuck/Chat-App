@@ -29,22 +29,6 @@ With the rise of mobile communication, developing a robust and user-friendly cha
   - Sharing location
   - Offline message storage and retrieval
 
-## Design Specifications
-
-- **App Title**: Font size 45, font weight 600, font color #FFFFFF.
-- **Your Name**: Font size 16, font weight 300, font color #757083, 50% opacity.
-- **Choose Background Color**: Font size 16, font weight 300, font color #757083, 100% opacity.
-- **Color Options HEX Codes**: #090C08, #474056, #8A95A5, #B9C6AE.
-- **Start Chatting Button**: Font size 16, font weight 600, font color #FFFFFF, button color #757083.
-
-## Project Deliverables
-
-1. **Exercise 1**: Set up environment, create layout, style start screen.
-2. **Exercise 2**: Build chat screen and functionality with Gifted Chat.
-3. **Exercise 3**: Authenticate users, store conversations in Firestore.
-4. **Exercise 4**: Store chats locally, retrieve stored messages.
-5. **Exercise 5**: Implement image and location sharing, apply accessibility considerations.
-
 ## Installation and Usage
 
 1. Clone the repository: `git clone <repository-url>`
