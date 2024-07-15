@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity } from 'react-native';
 
 const Start = ({ navigation }) => {
     const [name, setName] = useState('');
@@ -8,37 +8,35 @@ const Start = ({ navigation }) => {
     const imageBackground = require("../img/background-image.png")
 
     return (
-        <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
-            <ImageBackground
-                source={imageBackground}
-                style={styles.imageBackground}
-                resizeMode="cover"
-            >
-                <Text style={styles.appTitle}>App Title</Text>
-                <View style={styles.container}>
-                    <TextInput
-                        style={styles.textInput}
-                        value={name}
-                        onChangeText={setName}
-                        placeholder='Your Name'
-                    />
-                    <Text style={styles.colorText}>Choose Background Color:</Text>
-                    <View style={styles.colorOptions}>
-                        <TouchableOpacity onPress={() => setSelectedColor('#090C08')} style={[styles.colorCircle, { backgroundColor: '#090C08' }, selectedColor === '#090C08' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#474056')} style={[styles.colorCircle, { backgroundColor: '#474056' }, selectedColor === '#474056' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#8A95A5')} style={[styles.colorCircle, { backgroundColor: '#8A95A5' }, selectedColor === '#8A95A5' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#B9C6AE')} style={[styles.colorCircle, { backgroundColor: '#B9C6AE' }, selectedColor === '#B9C6AE' && styles.selected]} />
-                    </View>
-                    <TouchableOpacity
-                        style={styles.button}
-                        onPress={() => navigation.navigate('Chat', { name: name, color: selectedColor })}
-                    >
-                        <Text style={styles.buttonText}>Start Chatting</Text>
-                    </TouchableOpacity>
+        <ImageBackground
+            source={imageBackground}
+            style={styles.imageBackground}
+            resizeMode="cover"
+        >
+            <Text style={styles.appTitle}>App Title</Text>
+            <View style={styles.container}>
+                <TextInput
+                    style={styles.textInput}
+                    value={name}
+                    onChangeText={setName}
+                    placeholder='Your Name'
+                />
+                <Text style={styles.colorText}>Choose Background Color:</Text>
+                <View style={styles.colorOptions}>
+                    <TouchableOpacity onPress={() => setSelectedColor('#090C08')} style={[styles.colorCircle, { backgroundColor: '#090C08' }, selectedColor === '#090C08' && styles.selected]} />
+                    <TouchableOpacity onPress={() => setSelectedColor('#474056')} style={[styles.colorCircle, { backgroundColor: '#474056' }, selectedColor === '#474056' && styles.selected]} />
+                    <TouchableOpacity onPress={() => setSelectedColor('#8A95A5')} style={[styles.colorCircle, { backgroundColor: '#8A95A5' }, selectedColor === '#8A95A5' && styles.selected]} />
+                    <TouchableOpacity onPress={() => setSelectedColor('#B9C6AE')} style={[styles.colorCircle, { backgroundColor: '#B9C6AE' }, selectedColor === '#B9C6AE' && styles.selected]} />
                 </View>
+                <TouchableOpacity
+                    style={styles.button}
+                    onPress={() => navigation.navigate('Chat', { name: name, color: selectedColor })}
+                >
+                    <Text style={styles.buttonText}>Start Chatting</Text>
+                </TouchableOpacity>
+            </View>
+        </ImageBackground>
 
-            </ImageBackground>
-        </KeyboardAvoidingView>
     );
 }
 
