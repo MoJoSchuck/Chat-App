@@ -1,11 +1,30 @@
 import { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView, Alert } from 'react-native';
+import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
+    const auth = getAuth();
+    // State to hold the name input value
     const [name, setName] = useState('');
+    // State to hold the chosen background color
     const [selectedColor, setSelectedColor] = useState('#090C08'); // Default color
+    const imageBackground = require("../img/background-image.png");
 
-    const imageBackground = require("../img/background-image.png")
+    // handle the sign-in anonymously process for the user
+    const signInUser = () => {
+        signInAnonymously(auth)
+            .then((result) => {
+                navigation.navigate("Chat", {
+                    name: name,
+                    selectedColor: selectedColor,
+                    userID: result.user.uid,
+                });
+                Alert.alert("Signed in Successfully!");
+            })
+            .catch((error) => {
+                Alert.alert("Unable to sign in, try later again.");
+            });
+    };
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -29,14 +48,13 @@ const Start = ({ navigation }) => {
                         <TouchableOpacity onPress={() => setSelectedColor('#8A95A5')} style={[styles.colorCircle, { backgroundColor: '#8A95A5' }, selectedColor === '#8A95A5' && styles.selected]} />
                         <TouchableOpacity onPress={() => setSelectedColor('#B9C6AE')} style={[styles.colorCircle, { backgroundColor: '#B9C6AE' }, selectedColor === '#B9C6AE' && styles.selected]} />
                     </View>
+                    {/* Render a TouchableOpacity for starting the chat */}
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={() => navigation.navigate('Chat', { name: name, color: selectedColor })}
-                    >
+                        onPress={signInUser}>
                         <Text style={styles.buttonText}>Start Chatting</Text>
                     </TouchableOpacity>
                 </View>
-
             </ImageBackground>
         </KeyboardAvoidingView>
     );
@@ -48,7 +66,7 @@ const styles = StyleSheet.create({
         height: "44%",
         backgroundColor: "white",
         alignItems: "center",
-        marginBottom: 20,
+        marginBottom: 90,
         justifyContent: "space-evenly",
         borderRadius: 4,
     },
