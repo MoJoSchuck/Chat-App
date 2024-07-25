@@ -1,16 +1,16 @@
+// Import necessary libraries and components
 import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 import { getAuth, signInAnonymously } from "firebase/auth";
 
 const Start = ({ navigation }) => {
     const auth = getAuth();
-    // State to hold the name input value
-    const [name, setName] = useState('');
-    // State to hold the chosen background color
-    const [selectedColor, setSelectedColor] = useState('#090C08'); // Default color
+    const [name, setName] = useState(''); // State to hold the name input value
+    const [selectedColor, setSelectedColor] = useState('#090C08'); // State to hold the chosen background color
+
     const imageBackground = require("../img/background-image.png");
 
-    // handle the sign-in anonymously process for the user
+    // Function to handle the sign-in anonymously process for the user
     const signInUser = () => {
         signInAnonymously(auth)
             .then((result) => {
