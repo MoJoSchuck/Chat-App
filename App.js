@@ -1,26 +1,28 @@
-// import react Navigation
+// Import necessary libraries and components
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-// Create the navigator
-const Stack = createNativeStackNavigator();
-
 import { initializeApp } from "firebase/app";
 import { getFirestore, enableNetwork, disableNetwork } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
+import { useNetInfo } from "@react-native-community/netinfo";
+import { useEffect } from "react";
+import { LogBox, Alert } from "react-native";
+
+// Ignore AsyncStorage warning (optional)
+LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
 
 // import the screens
 import Start from './components/Start';
 import Chat from './components/Chat';
 
-import { useNetInfo } from "@react-native-community/netinfo";
-import { useEffect } from "react";
-import { LogBox, Alert } from "react-native";
-
-LogBox.ignoreLogs(["AsyncStorage has been extracted from"]);
+// Create the navigator
+const Stack = createNativeStackNavigator();
 
 const App = () => {
+    // Monitor network connection status
     const connectionStatus = useNetInfo();
 
+    // Firebase configuration
     const firebaseConfig = {
         apiKey: "AIzaSyDH_rDa0aVsz7EamHvVn2eX2UQvr4dI4bU",
         authDomain: "chatapp-e738d.firebaseapp.com",
@@ -35,7 +37,9 @@ const App = () => {
 
     // Initialize Cloud Firestore and get a reference to the service
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
+    // Effect to enable/disable Firestore network based on connection status
     useEffect(() => {
         if (connectionStatus.isConnected === false) {
             Alert.alert("Connection Lost!");
@@ -57,7 +61,7 @@ const App = () => {
                 <Stack.Screen
                     name="Chat"
                 >
-                    {props => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+                    {props => <Chat isConnected={connectionStatus.isConnected} db={db} storage={storage} {...props} />}
                 </Stack.Screen>
             </Stack.Navigator>
         </NavigationContainer>
