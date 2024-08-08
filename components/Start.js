@@ -3,17 +3,24 @@ import { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, ImageBackground, TouchableOpacity, Platform, KeyboardAvoidingView, Alert } from 'react-native';
 import { getAuth, signInAnonymously } from "firebase/auth";
 
-const Start = ({ navigation }) => {
-    const auth = getAuth();
-    const [name, setName] = useState(''); // State to hold the name input value
-    const [selectedColor, setSelectedColor] = useState('#090C08'); // State to hold the chosen background color
+// Define the available background colors
+const colors = ['#090C08', '#474056', '#8A95A5', '#B9C6AE'];
 
+const Start = ({ navigation }) => {
+    // Initialize Firebase Authentication
+    const auth = getAuth();
+    // State to hold the user's name input
+    const [name, setName] = useState('');
+    // State to hold the selected background color
+    const [selectedColor, setSelectedColor] = useState(colors[0]);
+    // Load the background image
     const imageBackground = require("../img/background-image.png");
 
-    // Function to handle the sign-in anonymously process for the user
+    // Function to handle anonymous sign-in
     const signInUser = () => {
         signInAnonymously(auth)
             .then((result) => {
+                // Navigate to the Chat screen with user details
                 navigation.navigate("Chat", {
                     name: name,
                     selectedColor: selectedColor,
@@ -43,23 +50,29 @@ const Start = ({ navigation }) => {
                     />
                     <Text style={styles.colorText}>Choose Background Color:</Text>
                     <View style={styles.colorOptions}>
-                        <TouchableOpacity onPress={() => setSelectedColor('#090C08')} style={[styles.colorCircle, { backgroundColor: '#090C08' }, selectedColor === '#090C08' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#474056')} style={[styles.colorCircle, { backgroundColor: '#474056' }, selectedColor === '#474056' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#8A95A5')} style={[styles.colorCircle, { backgroundColor: '#8A95A5' }, selectedColor === '#8A95A5' && styles.selected]} />
-                        <TouchableOpacity onPress={() => setSelectedColor('#B9C6AE')} style={[styles.colorCircle, { backgroundColor: '#B9C6AE' }, selectedColor === '#B9C6AE' && styles.selected]} />
+                        {/* Map through colors array to create color selection buttons */}
+                        {colors.map((color) => (
+                            <TouchableOpacity
+                                key={color}
+                                onPress={() => setSelectedColor(color)}
+                                style={[styles.colorCircle, { backgroundColor: color }, selectedColor === color && styles.selected]}
+                            />
+                        ))}
                     </View>
-                    {/* Render a TouchableOpacity for starting the chat */}
+                    {/* Button to start the chat */}
                     <TouchableOpacity
                         style={styles.button}
-                        onPress={signInUser}>
+                        onPress={signInUser}
+                    >
                         <Text style={styles.buttonText}>Start Chatting</Text>
                     </TouchableOpacity>
                 </View>
             </ImageBackground>
         </KeyboardAvoidingView>
     );
-}
+};
 
+// Styles for the Start screen components
 const styles = StyleSheet.create({
     container: {
         width: "88%",
