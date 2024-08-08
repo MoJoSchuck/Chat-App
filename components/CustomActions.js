@@ -3,14 +3,12 @@ import { StyleSheet, TouchableOpacity, View, Text, Alert } from "react-native";
 import { useActionSheet } from '@expo/react-native-action-sheet';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';;
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
-// Import necessary libraries and components
 const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID }) => {
-    // Use ActionSheet from Expo
     const actionSheet = useActionSheet();
 
-    // Function to show the action sheet with options
+    // Function to handle the ActionSheet button press
     const onActionPress = () => {
         const options = ['Choose From Library', 'Take Picture', 'Send Location', 'Cancel'];
         const cancelButtonIndex = options.length - 1;
@@ -22,28 +20,28 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
             async (buttonIndex) => {
                 switch (buttonIndex) {
                     case 0:
-                        pickImage(); // User chose to pick an image from library
+                        pickImage();
                         return;
                     case 1:
-                        takePhoto(); // User chose to pick an image from library
+                        takePhoto();
                         return;
                     case 2:
-                        getLocation(); // User chose to send location
+                        getLocation();
                     default:
                 }
             },
         );
     }
 
-    // Function to upload image to Firebase Storage and send the image URL in the chat
+    // Function to upload and send an image
     const uploadAndSendImage = async (imageURI) => {
         const uniqueRefString = generateReference(imageURI);
         const newUploadRef = ref(storage, uniqueRefString);
         const response = await fetch(imageURI);
         const blob = await response.blob();
         uploadBytes(newUploadRef, blob).then(async (snapshot) => {
-            const imageURL = await getDownloadURL(snapshot.ref)
-            onSend({ image: imageURL })
+            const imageURL = await getDownloadURL(snapshot.ref);
+            onSend({ image: imageURL });
         });
     }
 
@@ -90,9 +88,14 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
         return `${userID}-${timeStamp}-${imageName}`;
     }
 
-    // Return the TouchableOpacity component to show the action sheet
     return (
-        <TouchableOpacity style={styles.container} onPress={onActionPress}>
+        <TouchableOpacity
+            style={styles.container}
+            onPress={onActionPress}
+            accessible={true}
+            accessibilityLabel="More options"
+            accessibilityHint="Let’s you choose to send an image or your geolocation."
+        >
             <View style={[styles.wrapper, wrapperStyle]}>
                 <Text style={[styles.iconText, iconTextStyle]}>+</Text>
             </View>
@@ -100,6 +103,7 @@ const CustomActions = ({ wrapperStyle, iconTextStyle, onSend, storage, userID })
     );
 }
 
+// Styles for the CustomActions component
 const styles = StyleSheet.create({
     container: {
         width: 26,
