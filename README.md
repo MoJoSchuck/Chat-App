@@ -105,6 +105,13 @@ With the rise of mobile communication, developing a robust and user-friendly cha
       messagingSenderId: "your-messaging-sender-id",
       appId: "your-app-id"
       };
+
+## Screenshots
+
+### Mobile View
+<img src="https://github.com/user-attachments/assets/486aaa12-c9cc-414a-8256-67a029ff43a0" alt="Mobile View 2" width="299">
+<img src="https://github.com/user-attachments/assets/d46e15aa-6683-4ec3-bdda-9632c0e576ef" alt="Mobile View 1" width="299">
+
 ## Contributing
 
 Please read the contribution guidelines before contributing.
